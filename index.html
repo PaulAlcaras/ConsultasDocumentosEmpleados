@@ -54,7 +54,6 @@
             box-sizing: border-box;
         }
 
-        /* Estilo del botón */
         button {
             background-color: #aeca59;
             color: white;
@@ -71,7 +70,6 @@
             background-color: #88a13e;
         }
 
-        /* Estilo del div de respuesta */
         #respuesta {
             margin-top: 20px;
             padding: 15px;
@@ -114,42 +112,34 @@
     <div id="respuesta"></div>
 
     <script>
-        // Escuchar el evento de submit para no recargar la página
         document.querySelector('form').addEventListener('submit', function(event) {
-            event.preventDefault();  // Evitar que la página se recargue
+            event.preventDefault();  
 
-            // Obtener el ID del empleado ingresado
             const id = document.getElementById('employeeId').value.trim();
             if (!id) {
                 document.getElementById('respuesta').innerHTML = 'Por favor, ingresa un ID de empleado.';
                 return;
             }
 
-            // URL de la API con el ID del empleado ingresado
             const url = `https://demosogerh.buk.cl/api/v1/chile/employees/${id}/docs`;
 
-            // Encabezados con el auth_token
             const headers = {
                 'Accept': 'application/json',
                 'auth_token': 'K8PYy5Hqy5K2SPtw5iXyQyPQ'
             };
 
-            // Realizar la solicitud con fetch
             fetch(url, { method: 'GET', headers: headers })
-                .then(response => response.json()) // Convertir la respuesta a JSON
+                .then(response => response.json()) 
                 .then(data => {
-                    console.log(data); // Mostrar toda la respuesta en la consola para depuración
+                    console.log(data); 
 
-                    // Verificar si la respuesta contiene datos
                     if (data) {
-                        // Mostrar la respuesta como JSON en la pantalla
                         document.getElementById('respuesta').innerHTML = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
                     } else {
                         document.getElementById('respuesta').innerHTML = 'No se encontraron datos para este empleado.';
                     }
                 })
                 .catch(error => {
-                    // En caso de error, mostrarlo en la página
                     document.getElementById('respuesta').innerHTML = 'Error al hacer la solicitud: ' + error.message;
                 });
         });
@@ -157,7 +147,6 @@
         document.getElementById('copyButton').addEventListener('click', function() {
             const respuestaText = document.getElementById('respuesta').innerText;
 
-            // Usar la API del portapapeles
             navigator.clipboard.writeText(respuestaText).then(function() {
                 alert('Texto copiado al portapapeles');
             }).catch(function(error) {
